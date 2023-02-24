@@ -1,12 +1,12 @@
-type Pair<H, T> = [H, T];
-type Face = Pair<string, number>;
-type Faces = Array<Face>;
-type Suit = string;
-type Suits = Array<Suit>;
-type Deck_t = Array<Card>;
+export type Pair<H, T> = [H, T];
+export type Face = Pair<string, number>;
+export type Faces = Array<Face>;
+export type Suit = string;
+export type Suits = Array<Suit>;
+export type Deck_t = Array<Card>;
 
-const suit: Suits = ["Hearts", "Diamonds", "Clubs", "Spades"];
-const faces: Faces = [['Ace', 11],
+export const suit: Suits = ["Hearts", "Diamonds", "Clubs", "Spades"];
+export const faces: Faces = [['Ace', 11],
                      ['Two', 2],
                      ['Three', 3],
                      ['Four', 4],
@@ -20,7 +20,7 @@ const faces: Faces = [['Ace', 11],
                      ['Queen', 10],
                      ['King', 10]];
 
-class Card {    
+export class Card {    
     private suit: Suit;
     private face: Face;
 
@@ -45,7 +45,7 @@ class Card {
 //const new_card = new Card(suit[0], faces[0]);
 //console.log(new_card.to_String());
 
-class Deck {
+export class Deck {
     private deck: Deck_t = [];
     
     public constructor () {
@@ -56,13 +56,16 @@ class Deck {
         }
     }
 
+    public length(): number {
+        return this.deck.length;
+    }
+
     public shuffle(): Deck_t {
         return random_permutation(this.deck);
     }
 
     public draw(): Card {
         return this.deck.pop() as Card;
-        
     }
 
     public print_Deck (): void {
@@ -72,6 +75,7 @@ class Deck {
     }
 }
 
+
 //console.log(new_deck);
 /*const permutation: Permutation = random_permutation(52);
 const deck: Array<Card> = build_array(permutation.length, x => x);
@@ -79,20 +83,23 @@ for (let i = 0; i < permutation.length; i++) {
     deck[permutation[i]] = new Card(suit[], faces[i % 14]);
 }*/
 
-class Hand{
+export class Hand{
     private hand: Deck_t = [];
     private total_value: number = 0;
     private ace_counter: number = 0;
 
-    public add_Card_To_Hand(card: Card ): void{
+    public add_Card_To_Hand(card: Card): void{
         this.hand.push(card);
-        console.log(this.hand);
+    }
+
+    public show_hand(): Deck_t {
+        return this.hand;
     }
 
     public get_Hand_value(): number {
         this.hand.forEach(card => {
             this.total_value += card.get_Value();
-            console.log(card.get_Value());
+            //console.log(card.get_Value());
             if (card.get_Name() === faces[0][0]) {
                 this.ace_counter++;
             } else {}
@@ -104,25 +111,11 @@ class Hand{
 
         return this.total_value;
     }
-
 }
-const new_deck = new Deck();
-const new_hand = new Hand();
-new_deck.shuffle();
-//console.log(new_deck.draw());
-//console.log("");
-//new_deck.print_Deck();
-console.log("");
-new_hand.add_Card_To_Hand(new_deck.draw());
-new_hand.add_Card_To_Hand(new_deck.draw());
-new_hand.add_Card_To_Hand(new_deck.draw());
-console.log(new_hand.get_Hand_value());
 
-class Play{
+export class Play{
     
 }
-
-type Permutation = Array<number>;
 
 function random_permutation<T>(arr: Array<T>): Array<T> {
     for (let i = 0; i < arr.length; i++) {

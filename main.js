@@ -1,7 +1,8 @@
 "use strict";
-// [     ]
-var suit = ["Hearts", "Diamonds", "Clubs", "Spades"];
-var faces = [['Ace', 11],
+exports.__esModule = true;
+exports.Play = exports.Hand = exports.Deck = exports.Card = exports.faces = exports.suit = void 0;
+exports.suit = ["Hearts", "Diamonds", "Clubs", "Spades"];
+exports.faces = [['Ace', 11],
     ['Two', 2],
     ['Three', 3],
     ['Four', 4],
@@ -30,6 +31,7 @@ var Card = /** @class */ (function () {
     };
     return Card;
 }());
+exports.Card = Card;
 //const new_card = new Card(suit[0], faces[0]);
 //console.log(new_card.to_String());
 var Deck = /** @class */ (function () {
@@ -37,10 +39,13 @@ var Deck = /** @class */ (function () {
         this.deck = [];
         for (var i = 0; i < 13; i++) {
             for (var z = 0; z < 4; z++) {
-                this.deck.push(new Card(suit[z], faces[i]));
+                this.deck.push(new Card(exports.suit[z], exports.faces[i]));
             }
         }
     }
+    Deck.prototype.length = function () {
+        return this.deck.length;
+    };
     Deck.prototype.shuffle = function () {
         return random_permutation(this.deck);
     };
@@ -54,6 +59,7 @@ var Deck = /** @class */ (function () {
     };
     return Deck;
 }());
+exports.Deck = Deck;
 //console.log(new_deck);
 /*const permutation: Permutation = random_permutation(52);
 const deck: Array<Card> = build_array(permutation.length, x => x);
@@ -68,14 +74,16 @@ var Hand = /** @class */ (function () {
     }
     Hand.prototype.add_Card_To_Hand = function (card) {
         this.hand.push(card);
-        console.log(this.hand);
+    };
+    Hand.prototype.show_hand = function () {
+        return this.hand;
     };
     Hand.prototype.get_Hand_value = function () {
         var _this = this;
         this.hand.forEach(function (card) {
             _this.total_value += card.get_Value();
-            console.log(card.get_Value());
-            if (card.get_Name() === faces[0][0]) {
+            //console.log(card.get_Value());
+            if (card.get_Name() === exports.faces[0][0]) {
                 _this.ace_counter++;
             }
             else { }
@@ -89,22 +97,13 @@ var Hand = /** @class */ (function () {
     };
     return Hand;
 }());
-var new_deck = new Deck();
-var new_hand = new Hand();
-new_deck.shuffle();
-//console.log(new_deck.draw());
-//console.log("");
-//new_deck.print_Deck();
-console.log("");
-new_hand.add_Card_To_Hand(new_deck.draw());
-new_hand.add_Card_To_Hand(new_deck.draw());
-new_hand.add_Card_To_Hand(new_deck.draw());
-console.log(new_hand.get_Hand_value());
-var Player = /** @class */ (function () {
-    function Player() {
+exports.Hand = Hand;
+var Play = /** @class */ (function () {
+    function Play() {
     }
-    return Player;
+    return Play;
 }());
+exports.Play = Play;
 function random_permutation(arr) {
     for (var i = 0; i < arr.length; i++) {
         var swap_index = arr.length - i - 1;
