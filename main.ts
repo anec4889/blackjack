@@ -113,6 +113,27 @@ export class Hand{
     }
 }
 
+export class Money{
+    private balance: number = 0;
+    private temp_balance: number = 0;
+
+    public constructor (balance: number) {
+        this.balance = balance;
+    } 
+
+    public withdraw(): void{
+        this.temp_balance = this.balance;
+        this.balance = 0;
+
+        console.log("\nyou withdrew: " + this.temp_balance + "$\n");
+    }
+
+    public add_Money(amount: number): number{
+        this.balance = this.balance + amount;
+        return this.balance;
+    }
+}
+
 export class Play{
     
 }
