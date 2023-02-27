@@ -1,27 +1,25 @@
-import { Card, Deck, Hand , Money} from "./main";
-import * as readline from 'readline';
-
-let user_balance = new Money(100);
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
+"use strict";
+exports.__esModule = true;
+var main_1 = require("./main");
+var readline = require("readline");
+var user_balance = new main_1.Money(100);
+var rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
 });
-
-function play(){
-    let bet: number = 0;
-    const deck = new Deck();
+function play() {
+    var bet = 0;
+    var deck = new main_1.Deck();
     deck.shuffle();
-    const player_hand = new Hand();
-    const dealer_hand = new Hand();
-    console.log("Your Balance: " + user_balance.get_balance() + "$"); 
-    rl.question("Place bet: ", (amount: string) => {
+    var player_hand = new main_1.Hand();
+    var dealer_hand = new main_1.Hand();
+    console.log("Your Balance: " + user_balance.get_balance() + "$");
+    rl.question("Place bet: ", function (amount) {
         bet += Number(amount);
         player_hand.add_Card_To_Hand(deck.draw());
         dealer_hand.add_Card_To_Hand(deck.draw());
         player_hand.add_Card_To_Hand(deck.draw());
         dealer_hand.add_Card_To_Hand(deck.draw());
-
         console.log("\nYour Hand Value: " + player_hand.get_Hand_value());
         console.log("\nYour Hand: ");
         console.log(player_hand.show_hand());
@@ -30,24 +28,21 @@ function play(){
         console.log(dealer_hand.show_hand());
     });
 }
-
-function show_Menu(){
+function show_Menu() {
     console.log("[A] play\n[B] Add money\n[C] Withdraw\n[D] Rules\n[E] Quit\n");
 }
-
-function handle_Menu_Input(choice: String){
-    switch(choice) {
+function handle_Menu_Input(choice) {
+    switch (choice) {
         case 'A':
             console.log('\n');
             play();
             break;
         case 'B':
-            rl.question("Enter amount: ", (amount: string) => {
-                user_balance.add_Money(Number(amount))
+            rl.question("Enter amount: ", function (amount) {
+                user_balance.add_Money(Number(amount));
                 console.log(user_balance);
                 game();
             });
-
             break;
         case 'C':
             //TODO implement withdraw, typ färdig
@@ -64,13 +59,13 @@ function handle_Menu_Input(choice: String){
             game();
     }
 }
-
 function game() {
     show_Menu();
-    rl.question("Enter your choice: ", (answer: String) => {
+    rl.question("Enter your choice: ", function (answer) {
         if (answer.toLocaleUpperCase() === 'E') {
             rl.close();
-        } else {
+        }
+        else {
             handle_Menu_Input(answer.toLocaleUpperCase());
         }
     });
@@ -78,4 +73,3 @@ function game() {
 game();
 //var quit_Flag: Boolean = true;
 //while(quit_Flag){}
-

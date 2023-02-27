@@ -121,6 +121,10 @@ export class Money{
         this.balance = balance;
     } 
 
+    public get_balance(): number{
+        return this.balance;
+    }
+
     public withdraw(): void{
         this.temp_balance = this.balance;
         this.balance = 0;

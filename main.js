@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-exports.Play = exports.Hand = exports.Deck = exports.Card = exports.faces = exports.suit = void 0;
+exports.Play = exports.Money = exports.Hand = exports.Deck = exports.Card = exports.faces = exports.suit = void 0;
 exports.suit = ["Hearts", "Diamonds", "Clubs", "Spades"];
 exports.faces = [['Ace', 11],
     ['Two', 2],
@@ -98,6 +98,27 @@ var Hand = /** @class */ (function () {
     return Hand;
 }());
 exports.Hand = Hand;
+var Money = /** @class */ (function () {
+    function Money(balance) {
+        this.balance = 0;
+        this.temp_balance = 0;
+        this.balance = balance;
+    }
+    Money.prototype.get_balance = function () {
+        return this.balance;
+    };
+    Money.prototype.withdraw = function () {
+        this.temp_balance = this.balance;
+        this.balance = 0;
+        console.log("\nyou withdrew: " + this.temp_balance + "$\n");
+    };
+    Money.prototype.add_Money = function (amount) {
+        this.balance = this.balance + amount;
+        return this.balance;
+    };
+    return Money;
+}());
+exports.Money = Money;
 var Play = /** @class */ (function () {
     function Play() {
     }
