@@ -7,6 +7,39 @@ var rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
+function check_Winner() {
+    console.log("check winner");
+}
+function hit_Or_Stand(player_hand, dealer_hand, deck) {
+    rl.question("Hit or Stand[H/S]: ", function (answer) {
+        switch (answer.toUpperCase()) {
+            case 'H':
+                player_hand.add_Card_To_Hand(deck.draw());
+                print_Hands_Game(player_hand, dealer_hand, deck);
+                hit_Or_Stand(player_hand, dealer_hand, deck);
+                break;
+            case 'S':
+                while (dealer_hand.get_Hand_value() <= 17) {
+                    dealer_hand.add_Card_To_Hand(deck.draw());
+                }
+                print_Hands_Game(player_hand, dealer_hand, deck);
+                break;
+            default:
+                console.log("Invalid input");
+                hit_Or_Stand(player_hand, dealer_hand, deck);
+        }
+        check_Winner();
+    });
+}
+function print_Hands_Game(player_hand, dealer_hand, deck) {
+    console.log("\n-------------------------------------------------------------------------------------------------------------");
+    console.log("\nYour Hand Value: " + player_hand.get_Hand_value());
+    console.log("\nYour Hand: ");
+    console.log(player_hand.show_hand());
+    console.log("\nDealer Hand Value: " + dealer_hand.get_Hand_value());
+    console.log("\nDealers Hand: ");
+    console.log(dealer_hand.show_hand());
+}
 function play() {
     var bet = 0;
     var deck = new main_1.Deck();
@@ -20,12 +53,9 @@ function play() {
         dealer_hand.add_Card_To_Hand(deck.draw());
         player_hand.add_Card_To_Hand(deck.draw());
         dealer_hand.add_Card_To_Hand(deck.draw());
-        console.log("\nYour Hand Value: " + player_hand.get_Hand_value());
-        console.log("\nYour Hand: ");
-        console.log(player_hand.show_hand());
-        console.log("\nDealer Hand Value: " + dealer_hand.get_Hand_value());
-        console.log("\nDealers Hand: ");
-        console.log(dealer_hand.show_hand());
+        print_Hands_Game(player_hand, dealer_hand, deck);
+        // Todo första kortet för dealer ska vara gömt
+        hit_Or_Stand(player_hand, dealer_hand, deck);
     });
 }
 function show_Menu() {
@@ -66,7 +96,7 @@ function game() {
             rl.close();
         }
         else {
-            handle_Menu_Input(answer.toLocaleUpperCase());
+            handle_Menu_Input(answer.toUpperCase());
         }
     });
 }

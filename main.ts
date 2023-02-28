@@ -97,6 +97,7 @@ export class Hand{
     }
 
     public get_Hand_value(): number {
+        this.total_value = 0;
         this.hand.forEach(card => {
             this.total_value += card.get_Value();
             //console.log(card.get_Value());

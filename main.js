@@ -80,6 +80,7 @@ var Hand = /** @class */ (function () {
     };
     Hand.prototype.get_Hand_value = function () {
         var _this = this;
+        this.total_value = 0;
         this.hand.forEach(function (card) {
             _this.total_value += card.get_Value();
             //console.log(card.get_Value());
