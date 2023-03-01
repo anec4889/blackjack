@@ -1,8 +1,9 @@
 "use strict";
 exports.__esModule = true;
-exports.Play = exports.Money = exports.Hand = exports.Deck = exports.Card = exports.faces = exports.suit = void 0;
+exports.Money = exports.Hand = exports.Deck = exports.Card = exports.faces = exports.suit = void 0;
 exports.suit = ["Hearts", "Diamonds", "Clubs", "Spades"];
-exports.faces = [['Ace', 11],
+exports.faces = [
+    ['Ace', 11],
     ['Two', 2],
     ['Three', 3],
     ['Four', 4],
@@ -14,26 +15,25 @@ exports.faces = [['Ace', 11],
     ['Ten', 10],
     ['Jack', 10],
     ['Queen', 10],
-    ['King', 10]];
+    ['King', 10]
+];
 var Card = /** @class */ (function () {
     function Card(suit, face) {
         this.suit = suit;
         this.face = face;
     }
-    Card.prototype.get_Value = function () {
+    Card.prototype.get_value = function () {
         return this.face[1];
     };
-    Card.prototype.get_Name = function () {
+    Card.prototype.get_name = function () {
         return this.face[0];
     };
-    Card.prototype.to_String = function () {
-        return this.get_Name() + " of " + this.suit;
+    Card.prototype.to_string = function () {
+        return this.get_name() + " of " + this.suit;
     };
     return Card;
 }());
 exports.Card = Card;
-//const new_card = new Card(suit[0], faces[0]);
-//console.log(new_card.to_String());
 var Deck = /** @class */ (function () {
     function Deck() {
         this.deck = [];
@@ -52,39 +52,42 @@ var Deck = /** @class */ (function () {
     Deck.prototype.draw = function () {
         return this.deck.pop();
     };
-    Deck.prototype.print_Deck = function () {
+    Deck.prototype.print_deck = function () {
         for (var g = 0; g < this.deck.length; g++) {
-            console.log(this.deck[g].to_String());
+            console.log(this.deck[g].to_string());
         }
     };
     return Deck;
 }());
 exports.Deck = Deck;
-//console.log(new_deck);
-/*const permutation: Permutation = random_permutation(52);
-const deck: Array<Card> = build_array(permutation.length, x => x);
-for (let i = 0; i < permutation.length; i++) {
-    deck[permutation[i]] = new Card(suit[], faces[i % 14]);
-}*/
 var Hand = /** @class */ (function () {
     function Hand() {
         this.hand = [];
         this.total_value = 0;
         this.ace_counter = 0;
     }
-    Hand.prototype.add_Card_To_Hand = function (card) {
+    Hand.prototype.add_card_to_hand = function (card) {
         this.hand.push(card);
     };
     Hand.prototype.show_hand = function () {
         return this.hand;
     };
-    Hand.prototype.get_Hand_value = function () {
+    Hand.prototype.get_card = function (i) {
+        return this.hand[i];
+    };
+    Hand.prototype.get_cards_length = function () {
+        return this.hand.length;
+    };
+    Hand.prototype.get_card_value = function (index) {
+        return this.hand[index].get_value();
+    };
+    Hand.prototype.get_hand_value = function () {
         var _this = this;
         this.total_value = 0;
         this.hand.forEach(function (card) {
-            _this.total_value += card.get_Value();
+            _this.total_value += card.get_value();
             //console.log(card.get_Value());
-            if (card.get_Name() === exports.faces[0][0]) {
+            if (card.get_name() === exports.faces[0][0]) {
                 _this.ace_counter++;
             }
             else { }
@@ -102,30 +105,26 @@ exports.Hand = Hand;
 var Money = /** @class */ (function () {
     function Money(balance) {
         this.balance = 0;
-        this.temp_balance = 0;
         this.balance = balance;
     }
     Money.prototype.get_balance = function () {
         return this.balance;
     };
     Money.prototype.withdraw = function () {
-        this.temp_balance = this.balance;
+        console.log("\nyou withdrew: " + this.balance + "$\n");
         this.balance = 0;
-        console.log("\nyou withdrew: " + this.temp_balance + "$\n");
     };
-    Money.prototype.add_Money = function (amount) {
+    Money.prototype.add_money = function (amount) {
         this.balance = this.balance + amount;
+        return this.balance;
+    };
+    Money.prototype.sub_money = function (amount) {
+        this.balance = this.balance - amount;
         return this.balance;
     };
     return Money;
 }());
 exports.Money = Money;
-var Play = /** @class */ (function () {
-    function Play() {
-    }
-    return Play;
-}());
-exports.Play = Play;
 function random_permutation(arr) {
     for (var i = 0; i < arr.length; i++) {
         var swap_index = arr.length - i - 1;
@@ -136,11 +135,4 @@ function random_permutation(arr) {
         arr[random] = last_elem;
     }
     return arr;
-}
-function build_array(size, content) {
-    var result = Array(size);
-    for (var i = 0; i < size; i = i + 1) {
-        result[i] = content(i);
-    }
-    return result;
 }
