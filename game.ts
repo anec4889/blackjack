@@ -195,6 +195,16 @@ function double_bet_check(player_hand: Hand, dealer_hand: Hand, deck: Deck, bet:
 }
 //implement split
 
+function check_natural_blackjack(player_hand: Hand, dealer_hand: Hand, deck: Deck, bet: number){
+    if(player_hand.get_hand_value() == 21){
+        console.log("\n-------------------------------------------------------------------------------------------------------------\n");
+        console.log("You Win BY Natural Blackjack!");
+        console.log("Your Balance Is Now: " + user_balance.add_money(bet*1.5) + "$");
+        console.log("\n-------------------------------------------------------------------------------------------------------------\n");
+        game();
+    }
+}
+
 /**
  * Creates new hands for the dealer and the player, asks how large bet the player would like to place and deals out two cards each to the dealer and the player.
  */
@@ -204,8 +214,9 @@ export function play(): void {
     const dealer_hand = new Hand();
 
     console.log("Your Balance: " + user_balance.get_balance() + "$");
-    rl.question("Place bet: ", (amount: string) => {
-        if (user_balance.get_balance() < Number(amount)) {
+    //TODO FIXA SÅ ATT MAN INTE KAN SKRIVA "a"
+    rl.question("Place bet: ", (amount: number) => {
+        if (user_balance.get_balance() < Number(amount) || isNaN(amount)) {
             console.log("Insufficient Funds!");
             play();
         } else {
@@ -216,6 +227,9 @@ export function play(): void {
             dealer_hand.add_card_to_hand(deck.draw());
             
             print_hands_game(player_hand, dealer_hand, deck);
+
+            check_natural_blackjack(player_hand, dealer_hand, deck, bet);
+
             double_bet_check(player_hand, dealer_hand, deck, bet);
             
             /*
@@ -260,6 +274,9 @@ function rules(): void {
     console.log("- The dealer must take cards up to the value of 16. The dealer must stand if the cards value are 17 or higher.\n");
     console.log("- If your total value over exceeds 21 then you automatically lose and the dealer wins.\n");
     console.log("- If the dealers total value over exceeds 21 then the dealer automaticaly lose and you win.\n");
+    console.log("- You may chose to double your bet in which you are only give 1 more card and then automatically stand.\n");
+    console.log("- If you get 21 in your first hand you get what is called a natural blackjack which returns 2.5* your bet.\n");
+    
 }
 
 /**
@@ -280,8 +297,8 @@ export function handle_menu_input(choice: string): void {
             play();
             break;
         case 'B':
-            rl.question("Enter amount: ", (amount: string) => {
-                if (Number(amount) < 0) {
+            rl.question("Enter amount: ", (amount: number) => {
+                if (Number(amount) < 0 || isNaN(amount)) {
                     console.log("Invalid input!");
                     game();
                 } else {

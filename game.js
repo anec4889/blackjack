@@ -179,11 +179,20 @@ function double_bet_check(player_hand, dealer_hand, deck, bet) {
                 break;
             default:
                 console.log("Invalid input!");
-                double_bet(player_hand, dealer_hand, deck, bet);
+                double_bet_check(player_hand, dealer_hand, deck, bet);
         }
     });
 }
 //implement split
+function check_natural_blackjack(player_hand, dealer_hand, deck, bet) {
+    if (player_hand.get_hand_value() == 21) {
+        console.log("\n-------------------------------------------------------------------------------------------------------------\n");
+        console.log("You Win!");
+        console.log("Your Balance Is Now: " + user_balance.add_money(bet * 1.5) + "$");
+        console.log("\n-------------------------------------------------------------------------------------------------------------\n");
+        game();
+    }
+}
 /**
  * Creates new hands for the dealer and the player, asks how large bet the player would like to place and deals out two cards each to the dealer and the player.
  */
@@ -192,8 +201,9 @@ function play() {
     var player_hand = new main_1.Hand();
     var dealer_hand = new main_1.Hand();
     console.log("Your Balance: " + user_balance.get_balance() + "$");
+    //TODO FIXA SÅ ATT MAN INTE KAN SKRIVA "a"
     rl.question("Place bet: ", function (amount) {
-        if (user_balance.get_balance() < Number(amount)) {
+        if (user_balance.get_balance() < Number(amount) || isNaN(amount)) {
             console.log("Insufficient Funds!");
             play();
         }
@@ -204,6 +214,7 @@ function play() {
             player_hand.add_card_to_hand(deck.draw());
             dealer_hand.add_card_to_hand(deck.draw());
             print_hands_game(player_hand, dealer_hand, deck);
+            check_natural_blackjack(player_hand, dealer_hand, deck, bet);
             double_bet_check(player_hand, dealer_hand, deck, bet);
             /*
             if(player_hand.get_card_value(0) == player_hand.get_card_value(1)){
@@ -245,6 +256,7 @@ function rules() {
     console.log("- The dealer must take cards up to the value of 16. The dealer must stand if the cards value are 17 or higher.\n");
     console.log("- If your total value over exceeds 21 then you automatically lose and the dealer wins.\n");
     console.log("- If the dealers total value over exceeds 21 then the dealer automaticaly lose and you win.\n");
+    console.log("- You may chose to double your bet in which you are only give 1 more card and then automatically stand.\n");
 }
 /**
  * Prints out the game menu.
@@ -264,7 +276,7 @@ function handle_menu_input(choice) {
             break;
         case 'B':
             rl.question("Enter amount: ", function (amount) {
-                if (Number(amount) < 0) {
+                if (Number(amount) < 0 || isNaN(amount)) {
                     console.log("Invalid input!");
                     game();
                 }

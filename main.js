@@ -151,7 +151,3 @@ function random_permutation(arr) {
     }
     return arr;
 }
-var new_deck = new Deck(1);
-new_deck.shuffle();
-new_deck.print_deck();
-console.log(new_deck.length());
