@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
-exports.Money = exports.Hand = exports.Deck = exports.Card = exports.faces = exports.suit = void 0;
-exports.suit = ["Hearts", "Diamonds", "Clubs", "Spades"];
+exports.Player = exports.Money = exports.Hand = exports.Deck = exports.Card = exports.faces = exports.suits = void 0;
+exports.suits = ["Hearts", "Diamonds", "Clubs", "Spades"];
 exports.faces = [
     ['Ace', 11],
     ['Two', 2],
@@ -22,6 +22,9 @@ var Card = /** @class */ (function () {
         this.suit = suit;
         this.face = face;
     }
+    /**
+     * Returns
+     */
     Card.prototype.get_value = function () {
         return this.face[1];
     };
@@ -35,12 +38,15 @@ var Card = /** @class */ (function () {
 }());
 exports.Card = Card;
 var Deck = /** @class */ (function () {
-    function Deck() {
+    function Deck(amount_of_decks) {
+        var _this = this;
         this.deck = [];
-        for (var i = 0; i < 13; i++) {
-            for (var z = 0; z < 4; z++) {
-                this.deck.push(new Card(exports.suit[z], exports.faces[i]));
-            }
+        for (var i = 0; i < amount_of_decks; i++) {
+            exports.faces.forEach(function (face) {
+                exports.suits.forEach(function (suit) {
+                    _this.deck.push(new Card(suit, face));
+                });
+            });
         }
     }
     Deck.prototype.length = function () {
@@ -125,14 +131,27 @@ var Money = /** @class */ (function () {
     return Money;
 }());
 exports.Money = Money;
+var Player = /** @class */ (function () {
+    function Player() {
+        this.players = [];
+    }
+    Player.prototype.add_players = function (player) {
+        this.players.push(player);
+    };
+    Player.prototype.get_player = function () {
+    };
+    return Player;
+}());
+exports.Player = Player;
 function random_permutation(arr) {
-    for (var i = 0; i < arr.length; i++) {
-        var swap_index = arr.length - i - 1;
-        var random = Math.floor(Math.random() * swap_index);
-        var swap_elem = arr[random];
-        var last_elem = arr[swap_index];
-        arr[swap_index] = swap_elem;
-        arr[random] = last_elem;
+    var _a;
+    for (var i = arr.length - 1; i > 0; --i) {
+        var j = Math.floor(Math.random() * (i + 1));
+        _a = [arr[j], arr[i]], arr[i] = _a[0], arr[j] = _a[1];
     }
     return arr;
 }
+var new_deck = new Deck(1);
+new_deck.shuffle();
+new_deck.print_deck();
+console.log(new_deck.length());

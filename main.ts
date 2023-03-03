@@ -6,7 +6,7 @@ export type Suits = Array<Suit>;
 export type Deck_t = Array<Card>;
 export type Player_t = Array<Hand>;
 
-export const suit: Suits = ["Hearts", "Diamonds", "Clubs", "Spades"];
+export const suits: Suits = ["Hearts", "Diamonds", "Clubs", "Spades"];
 export const faces: Faces = [
                                 ['Ace', 11],
                                 ['Two', 2],
@@ -32,6 +32,9 @@ export class Card {
         this.face = face;
     } 
 
+    /**
+     * Returns 
+     */
     public get_value(): number {
         return this.face[1];
     }
@@ -48,11 +51,13 @@ export class Card {
 export class Deck {
     private deck: Deck_t = [];
     
-    public constructor() {
-        for (let i = 0; i < 13; i++){
-            for(let z = 0; z < 4; z++) {
-                this.deck.push(new Card(suit[z], faces[i]));
-            }
+    public constructor(amount_of_decks: number) {
+        for (let i = 0; i < amount_of_decks; i++){
+            faces.forEach(face => {
+                suits.forEach(suit => {
+                    this.deck.push(new Card(suit, face));
+                });
+            });
         }
     }
 
@@ -75,7 +80,7 @@ export class Deck {
     }
 }
 
-export class Hand{
+export class Hand {
     private hand: Deck_t = [];
     private total_value: number = 0;
     private ace_counter: number = 0;
@@ -156,14 +161,9 @@ export class Player{
 }
 
 function random_permutation<T>(arr: Array<T>): Array<T> {
-    for (let i = 0; i < arr.length; i++) {
-        const swap_index = arr.length - i - 1;
-        const random = Math.floor(Math.random() * swap_index);
-        const swap_elem = arr[random];
-        const last_elem = arr[swap_index];
-
-        arr[swap_index] = swap_elem;
-        arr[random] = last_elem;
+    for (let i = arr.length - 1; i > 0; --i) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
     }
     return arr;
 }
