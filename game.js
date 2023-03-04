@@ -183,11 +183,17 @@ function double_bet_check(player_hand, dealer_hand, deck, bet) {
         }
     });
 }
-//implement split
+/**
+ * Checks if you achived natural blackjack and then ends the game. Meaning if you have exactly 21 after your first 2 cards.
+ * @param {Hand} player_hand - The cards of the player.
+ * @param {Hand} dealer_hand - The cards of the dealer.
+ * @param {Deck} deck - Array of cards which the dealer or players new card/s is drawn from.
+ * @param {number} bet - Number to be added or subtracted from your balance.
+ */
 function check_natural_blackjack(player_hand, dealer_hand, deck, bet) {
     if (player_hand.get_hand_value() == 21) {
         console.log("\n-------------------------------------------------------------------------------------------------------------\n");
-        console.log("You Win!");
+        console.log("You Win BY Natural Blackjack!");
         console.log("Your Balance Is Now: " + user_balance.add_money(bet * 1.5) + "$");
         console.log("\n-------------------------------------------------------------------------------------------------------------\n");
         game();
@@ -203,7 +209,7 @@ function play() {
     console.log("Your Balance: " + user_balance.get_balance() + "$");
     //TODO FIXA SÅ ATT MAN INTE KAN SKRIVA "a"
     rl.question("Place bet: ", function (amount) {
-        if (user_balance.get_balance() < Number(amount) || isNaN(amount)) {
+        if (user_balance.get_balance() < Number(amount) || isNaN(Number(amount))) {
             console.log("Insufficient Funds!");
             play();
         }
@@ -216,23 +222,6 @@ function play() {
             print_hands_game(player_hand, dealer_hand, deck);
             check_natural_blackjack(player_hand, dealer_hand, deck, bet);
             double_bet_check(player_hand, dealer_hand, deck, bet);
-            /*
-            if(player_hand.get_card_value(0) == player_hand.get_card_value(1)){
-                rl.question("Do You Want To Split?[Y/N]: ", (answer: string) => {
-                    if(answer.toUpperCase() == 'Y'){
-                        const split_hand_1 = new Hand();
-                        const split_hand_2 = new Hand();
-                        split_hand_1.add_Card_To_Hand(player_hand.get_card(0));
-                        split_hand_2.add_Card_To_Hand(player_hand.get_card(1));
-                        split_hand_1.add_Card_To_Hand(deck.draw());
-                        split_hand_2.add_Card_To_Hand(deck.draw());
-                        hit_Or_Stand(split_hand_1, dealer_hand, deck, bet);
-                        hit_Or_Stand(split_hand_2, dealer_hand, deck, bet);
-                    }
-                });
-            }
-            */
-            //Om vi ska fixa split måste hitOrStand ta en lista av spelare
         }
     });
 }
@@ -257,6 +246,7 @@ function rules() {
     console.log("- If your total value over exceeds 21 then you automatically lose and the dealer wins.\n");
     console.log("- If the dealers total value over exceeds 21 then the dealer automaticaly lose and you win.\n");
     console.log("- You may chose to double your bet in which you are only give 1 more card and then automatically stand.\n");
+    console.log("- If you get 21 in your first hand you get what is called a natural blackjack which returns 2.5* your bet.\n");
 }
 /**
  * Prints out the game menu.
@@ -276,7 +266,7 @@ function handle_menu_input(choice) {
             break;
         case 'B':
             rl.question("Enter amount: ", function (amount) {
-                if (Number(amount) < 0 || isNaN(amount)) {
+                if (Number(amount) < 0 || isNaN(Number(amount))) {
                     console.log("Invalid input!");
                     game();
                 }

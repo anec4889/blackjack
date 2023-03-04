@@ -193,8 +193,14 @@ function double_bet_check(player_hand: Hand, dealer_hand: Hand, deck: Deck, bet:
         }    
     });
 }
-//implement split
 
+/**
+ * Checks if you achived natural blackjack and then ends the game. Meaning if you have exactly 21 after your first 2 cards.
+ * @param {Hand} player_hand - The cards of the player.
+ * @param {Hand} dealer_hand - The cards of the dealer.
+ * @param {Deck} deck - Array of cards which the dealer or players new card/s is drawn from.
+ * @param {number} bet - Number to be added or subtracted from your balance.
+ */
 function check_natural_blackjack(player_hand: Hand, dealer_hand: Hand, deck: Deck, bet: number){
     if(player_hand.get_hand_value() == 21){
         console.log("\n-------------------------------------------------------------------------------------------------------------\n");
@@ -215,8 +221,8 @@ export function play(): void {
 
     console.log("Your Balance: " + user_balance.get_balance() + "$");
     //TODO FIXA SÅ ATT MAN INTE KAN SKRIVA "a"
-    rl.question("Place bet: ", (amount: number) => {
-        if (user_balance.get_balance() < Number(amount) || isNaN(amount)) {
+    rl.question("Place bet: ", (amount: string) => {
+        if (user_balance.get_balance() < Number(amount) || isNaN(Number(amount))) {
             console.log("Insufficient Funds!");
             play();
         } else {
@@ -231,24 +237,6 @@ export function play(): void {
             check_natural_blackjack(player_hand, dealer_hand, deck, bet);
 
             double_bet_check(player_hand, dealer_hand, deck, bet);
-            
-            /*
-            if(player_hand.get_card_value(0) == player_hand.get_card_value(1)){
-                rl.question("Do You Want To Split?[Y/N]: ", (answer: string) => {
-                    if(answer.toUpperCase() == 'Y'){
-                        const split_hand_1 = new Hand();
-                        const split_hand_2 = new Hand();
-                        split_hand_1.add_Card_To_Hand(player_hand.get_card(0));
-                        split_hand_2.add_Card_To_Hand(player_hand.get_card(1));
-                        split_hand_1.add_Card_To_Hand(deck.draw());
-                        split_hand_2.add_Card_To_Hand(deck.draw());
-                        hit_Or_Stand(split_hand_1, dealer_hand, deck, bet);
-                        hit_Or_Stand(split_hand_2, dealer_hand, deck, bet);
-                    }
-                });
-            }
-            */
-            //Om vi ska fixa split måste hitOrStand ta en lista av spelare
             
         }
         
@@ -297,8 +285,8 @@ export function handle_menu_input(choice: string): void {
             play();
             break;
         case 'B':
-            rl.question("Enter amount: ", (amount: number) => {
-                if (Number(amount) < 0 || isNaN(amount)) {
+            rl.question("Enter amount: ", (amount: string) => {
+                if (Number(amount) < 0 || isNaN(Number(amount))) {
                     console.log("Invalid input!");
                     game();
                 } else {
