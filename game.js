@@ -24,7 +24,7 @@ var rl = readline.createInterface({
  * @param {Hand} player_hand - The cards of the player.
  * @param {Hand} dealers_hand - The cards of the dealer.
  * @param {number} bet - Number to be added or substracted from your balance.
- * @returns true if neither the player nor the dealer has a hand value smaller than 21, false if the hand value is greater than 21
+ * @returns {boolean} true if neither the player nor the dealer has a hand value smaller than 21, false if the hand value is greater than 21
  */
 function check_busted(player_hand, dealer_hand, bet) {
     if (player_hand.get_hand_value() > 21) {
@@ -198,6 +198,7 @@ function check_natural_blackjack(player_hand, dealer_hand, deck, bet) {
         console.log("\n-------------------------------------------------------------------------------------------------------------\n");
         game();
     }
+    else { }
 }
 /**
  * Creates new hands for the dealer and the player, asks how large bet the player would like to place and deals out two cards each to the dealer and the player.
@@ -207,9 +208,8 @@ function play() {
     var player_hand = new main_1.Hand();
     var dealer_hand = new main_1.Hand();
     console.log("Your Balance: " + user_balance.get_balance() + "$");
-    //TODO FIXA SÅ ATT MAN INTE KAN SKRIVA "a"
     rl.question("Place bet: ", function (amount) {
-        if (user_balance.get_balance() < Number(amount) || isNaN(Number(amount))) {
+        if (user_balance.get_balance() < Number(amount) || isNaN(Number(amount)) || Number(amount) < 0) {
             console.log("Insufficient Funds!");
             play();
         }
