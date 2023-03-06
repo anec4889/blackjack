@@ -142,8 +142,6 @@ function print_hands_game(player_hand: Hand, dealer_hand: Hand, deck: Deck): voi
     console.log("\n-------------------------------------------------------------------------------------------------------------");
     console.log("\nCards Left In The Deck: " + deck.length());
     console.log("\n-------------------------------------------------------------------------------------------------------------");
-    console.log("\n-------------------------------------------------------------------------------------------------------------");
-    console.log("\n-------------------------------------------------------------------------------------------------------------");
     console.log("\nYour Hand Value: " + player_hand.get_hand_value());
     console.log("\nYour Hand: ");
     for (let i: number = 0; i < player_hand.get_cards_length(); i++) {
