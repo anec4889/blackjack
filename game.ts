@@ -7,7 +7,7 @@ import * as readline from 'readline';
 type Busted = boolean;
 
 //2 indicates how many decks you want to play with
-const deck = new Deck(2);
+const deck = new Deck(6);
 
 //shuffles the whole deck
 deck.shuffle();

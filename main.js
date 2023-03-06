@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-exports.random_permutation = exports.Money = exports.Hand = exports.Deck = exports.Card = exports.faces = exports.suits = void 0;
+exports.Money = exports.Hand = exports.Deck = exports.Card = exports.faces = exports.suits = void 0;
 exports.suits = ["Hearts", "Diamonds", "Clubs", "Spades"];
 exports.faces = [
     ['Ace', 11],
@@ -317,7 +317,3 @@ function random_permutation(arr) {
     }
     return arr;
 }
-exports.random_permutation = random_permutation;
-var new_deck = new Deck(2);
-new_deck.shuffle();
-new_deck.print_deck();

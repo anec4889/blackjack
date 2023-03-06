@@ -1,10 +1,9 @@
 "use strict";
 exports.__esModule = true;
-exports.handle_menu_input = exports.play = exports.print_hands_game = void 0;
 var main_1 = require("./main");
 var readline = require("readline");
 //2 indicates how many decks you want to play with
-var deck = new main_1.Deck(2);
+var deck = new main_1.Deck(6);
 //shuffles the whole deck
 deck.shuffle();
 //start with 100$
@@ -16,15 +15,17 @@ var rl = readline.createInterface({
     output: process.stdout
 });
 /**
- * Compares the computers hand value with the players hand value each round and checks if either of them have a total hand value greater than 21. Then prints accordingly.
+ * Compares the computers hand value with the players hand value each round and
+ * checks if either of them have a total hand value greater than 21. Then prints accordingly.
  * @example
  * // returns false
  * player_hand.get_hand_value() = 22; dealer_hand.get_hand_value() = 20; bet = 50
  * check_busted(player_hand, dealer_hand, bet);
  * @param {Hand} player_hand - The cards of the player.
- * @param {Hand} dealers_hand - The cards of the dealer.
+ * @param {Hand} dealer_hand - The cards of the dealer.
  * @param {number} bet - Number to be added or substracted from your balance.
- * @returns {boolean} true if neither the player nor the dealer has a hand value smaller than 21, false if the hand value is greater than 21
+ * @returns {boolean} Returns true if neither the player nor the dealer has a hand
+ * value smaller than 21, false if the hand value is greater than 21
  */
 function check_busted(player_hand, dealer_hand, bet) {
     if (player_hand.get_hand_value() > 21) {
@@ -43,14 +44,12 @@ function check_busted(player_hand, dealer_hand, bet) {
         game();
         return false;
     }
+    else { }
     return true;
 }
 /**
- * Compares the result of the game after the player has hit stand provided that both the dealer and the player has a score lower than 22 and declares a winner based on the result.
- * @example
- * // returns "Push!" "Your Balance Is Now: x $"
- * player_hand.get_hand_value = 18; dealer_hand.get_hand_value = 18; bet = 50;
- * check_winner(player_hand, dealer_hand, 50);
+ * Compares the result of the game after the player has hit stand provided that both the dealer
+ * and the player has a score lower than 22 and prints out a winner based on the result.
  * @param {Hand} player_hand - The cards of the player.
  * @param {Hand} dealer_hand - The cards of the dealer.
  * @param {number} bet - Number to be added or substracted from your balance.
@@ -72,12 +71,15 @@ function check_winner(player_hand, dealer_hand, bet) {
             console.log("You Win!");
             console.log("Your Balance Is Now: " + user_balance.add_money(bet) + "$");
         }
+        else { }
         console.log("\n-------------------------------------------------------------------------------------------------------------\n");
         game();
     }
+    else { }
 }
 /**
- * Adds cards to the dealers hand after the player has chosen to stand and calls on functions that checks the win conditions.
+ * Adds cards to the dealers hand after the player has chosen to stand and calls on
+ * functions that checks the win conditions.
  * @param {Hand} player_hand - The cards of the player.
  * @param {Hand} dealer_hand - The cards of the dealer.
  * @param {Deck} deck - Array of cards which the dealers or players new card/s is drawn from.
@@ -95,7 +97,8 @@ function stand(player_hand, dealer_hand, deck, bet) {
     else { }
 }
 /**
- * Gives the player the option to either "Hit" and receive a new card to its hand or "Stand" and pass the turn to the dealer.
+ * Gives the player the option to either "Hit" and receive a new card to its hand or
+ * "Stand" and pass the turn to the dealer.
  * @param {Hand} player_hand - The cards of the player.
  * @param {Hand} dealer_hand - The cards of the dealer.
  * @param {Deck} deck - Array of cards which the dealer or players new card/s is drawn from.
@@ -110,6 +113,7 @@ function hit_or_stand(player_hand, dealer_hand, deck, bet) {
                 if (check_busted(player_hand, dealer_hand, bet)) {
                     hit_or_stand(player_hand, dealer_hand, deck, bet);
                 }
+                else { }
                 break;
             case 'S':
                 stand(player_hand, dealer_hand, deck, bet);
@@ -121,7 +125,8 @@ function hit_or_stand(player_hand, dealer_hand, deck, bet) {
     });
 }
 /**
- * Prints out the status of the game including cards left in the deck, the dealer and the players hands and their corresponding value.
+ * Prints out the status of the game including cards left in the deck, the dealer and
+ * the players hands and their corresponding value.
  * @param {Hand} player_hand - The cards of the player.
  * @param {Hand} dealer_hand - The cards of the dealer.
  * @param {Deck} deck - Array of cards which the dealer or players new card/s is drawn from.
@@ -129,6 +134,8 @@ function hit_or_stand(player_hand, dealer_hand, deck, bet) {
 function print_hands_game(player_hand, dealer_hand, deck) {
     console.log("\n-------------------------------------------------------------------------------------------------------------");
     console.log("\nCards Left In The Deck: " + deck.length());
+    console.log("\n-------------------------------------------------------------------------------------------------------------");
+    console.log("\n-------------------------------------------------------------------------------------------------------------");
     console.log("\n-------------------------------------------------------------------------------------------------------------");
     console.log("\nYour Hand Value: " + player_hand.get_hand_value());
     console.log("\nYour Hand: ");
@@ -151,9 +158,9 @@ function print_hands_game(player_hand, dealer_hand, deck) {
         console.log((dealer_hand.get_card(j)).to_string());
     }
 }
-exports.print_hands_game = print_hands_game;
 /**
- * Gives the player the option to double their bet (provided that the player has enough money) in the first round of each game.
+ * Gives the player the option to double their bet (provided that the player has enough money)
+ * in the first round of each game.
  * In case of a double bet, the player receives one more card and is then forced to stand.
  * @param {Hand} player_hand - The cards of the player.
  * @param {Hand} dealer_hand - The cards of the dealer.
@@ -184,14 +191,15 @@ function double_bet_check(player_hand, dealer_hand, deck, bet) {
     });
 }
 /**
- * Checks if you achived natural blackjack and then ends the game. Meaning if you have exactly 21 after your first 2 cards.
+ * Checks if you achived natural blackjack and then ends the game.
+ * Meaning if you have exactly 21 after your first 2 cards.
  * @param {Hand} player_hand - The cards of the player.
  * @param {Hand} dealer_hand - The cards of the dealer.
  * @param {Deck} deck - Array of cards which the dealer or players new card/s is drawn from.
  * @param {number} bet - Number to be added or subtracted from your balance.
  */
 function check_natural_blackjack(player_hand, dealer_hand, deck, bet) {
-    if (player_hand.get_hand_value() == 21) {
+    if (player_hand.get_hand_value() === 21) {
         console.log("\n-------------------------------------------------------------------------------------------------------------\n");
         console.log("You Win BY Natural Blackjack!");
         console.log("Your Balance Is Now: " + user_balance.add_money(bet * 1.5) + "$");
@@ -201,7 +209,8 @@ function check_natural_blackjack(player_hand, dealer_hand, deck, bet) {
     else { }
 }
 /**
- * Creates new hands for the dealer and the player, asks how large bet the player would like to place and deals out two cards each to the dealer and the player.
+ * Creates new hands for the dealer and the player, asks how large bet the player would
+ * like to place and deals out two cards each to the dealer and the player.
  */
 function play() {
     var bet = 0;
@@ -225,7 +234,6 @@ function play() {
         }
     });
 }
-exports.play = play;
 /**
  * Prints out all the rules for the game.
  */
@@ -255,7 +263,8 @@ function show_menu() {
     console.log("[A] Play\n[B] Add money\n[C] Withdraw\n[D] Rules\n[E] Quit\n");
 }
 /**
- * Handles the user input from the function game and calls on different functions depending on the chosen alternative.
+ * Handles the user input from the function game and calls on different functions
+ * depending on the chosen alternative.
  * @param {string} choice - user input
  */
 function handle_menu_input(choice) {
@@ -290,9 +299,9 @@ function handle_menu_input(choice) {
             game();
     }
 }
-exports.handle_menu_input = handle_menu_input;
 /**
- * Starts the game and prints out the game menu. Asks the player which alternative from the game menu they'd like to choose.
+ * Starts the game and prints out the game menu. Asks the player which alternative
+ * from the game menu they'd like to choose.
  */
 function game() {
     console.log("");
