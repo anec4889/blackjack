@@ -57,32 +57,3 @@ test('Expect Ace to be 11 if total value is under 11 and 1 otherwise', () => {
     expect(new_hand_one.get_hand_value()).toStrictEqual(16);
 });
 
-
-/*test('expect handle_menu_input() to correctly handle empty or wrong input', () => {
-    try {
-        handle_menu_input("");
-        handle_menu_input("K");
-
-        expect(true).toBeTruthy();
-    } catch(error) {
-        expect(false).toBeUndefined();
-    }
-});*/
-
-test('', () => {
-    beforeAll(print_hands_game => {
-        const hand1 = new Hand();
-        const hand2 = new Hand();
-
-        print_hands_game(hand1, hand2);
-    })
-    afterAll(print_hands_game => {
-        const hand1 = new Hand();
-        const hand2 = new Hand();
-
-        print_hands_game(hand1, hand2);
-    })
-
-    
-    
-});

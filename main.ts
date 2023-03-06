@@ -8,20 +8,20 @@ export type Player_t = Array<Hand>;
 
 export const suits: Suits = ["Hearts", "Diamonds", "Clubs", "Spades"];
 export const faces: Faces = [
-                                ['Ace', 11],
-                                ['Two', 2],
-                                ['Three', 3],
-                                ['Four', 4],
-                                ['Five', 5],
-                                ['Six', 6],
-                                ['Seven', 7],
-                                ['Eight', 8],
-                                ['Nine', 9],
-                                ['Ten', 10],
-                                ['Jack', 10],
-                                ['Queen', 10],
-                                ['King', 10]
-                            ];
+    ['Ace', 11],
+    ['Two', 2],
+    ['Three', 3],
+    ['Four', 4],
+    ['Five', 5],
+    ['Six', 6],
+    ['Seven', 7],
+    ['Eight', 8],
+    ['Nine', 9],
+    ['Ten', 10],
+    ['Jack', 10],
+    ['Queen', 10],
+    ['King', 10]
+];
 
 /**
  * Represents the data for the playing cards in form of a string and a pair of a string and a number.
@@ -88,7 +88,7 @@ export class Deck {
      * @param {number} amount_of_decks - The amount of decks to be created.
      */
     public constructor(amount_of_decks: number) {
-        for (let i = 0; i < amount_of_decks; i++){
+        for (let i: number = 0; i < amount_of_decks; i++){
             faces.forEach(face => {
                 suits.forEach(suit => {
                     this.deck.push(new Card(suit, face));
@@ -133,7 +133,7 @@ export class Deck {
      * Prints the entire deck in order.
      */
     public print_deck(): void {
-        for (let g = 0; g < this.deck.length; g++) {
+        for (let g: number = 0; g < this.deck.length; g++) {
             console.log(this.deck[g].to_string());
         }
     }
@@ -329,9 +329,10 @@ export class Money {
  * @returns {Array<T>} Returns a permuted array of the input array.
  */
 function random_permutation<T>(arr: Array<T>): Array<T> {
-    for (let i = arr.length - 1; i > 0; --i) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]]; // Destructuring assignment.
+    for (let i: number = arr.length - 1; i > 0; --i) {
+        const swap = Math.floor(Math.random() * (i + 1));
+        // Destructuring assignment used to swap elements in array.
+        [arr[i], arr[swap]] = [arr[swap], arr[i]];
     }
     return arr;
 }

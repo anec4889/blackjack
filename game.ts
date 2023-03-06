@@ -19,20 +19,22 @@ let user_balance: Money = new Money(100);
 let hidden_card: boolean = true;
 
 const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
+    input: process.stdin,
+    output: process.stdout
 });
 
 /**
- * Compares the computers hand value with the players hand value each round and checks if either of them have a total hand value greater than 21. Then prints accordingly.
+ * Compares the computers hand value with the players hand value each round and 
+ * checks if either of them have a total hand value greater than 21. Then prints accordingly.
  * @example
  * // returns false
  * player_hand.get_hand_value() = 22; dealer_hand.get_hand_value() = 20; bet = 50
  * check_busted(player_hand, dealer_hand, bet);
  * @param {Hand} player_hand - The cards of the player.
- * @param {Hand} dealers_hand - The cards of the dealer.
+ * @param {Hand} dealer_hand - The cards of the dealer.
  * @param {number} bet - Number to be added or substracted from your balance.
- * @returns {boolean} true if neither the player nor the dealer has a hand value smaller than 21, false if the hand value is greater than 21 
+ * @returns {boolean} Returns true if neither the player nor the dealer has a hand 
+ * value smaller than 21, false if the hand value is greater than 21 
  */
 function check_busted(player_hand: Hand, dealer_hand: Hand, bet: number): Busted {
     if (player_hand.get_hand_value() > 21) {
@@ -49,7 +51,8 @@ function check_busted(player_hand: Hand, dealer_hand: Hand, bet: number): Busted
         console.log("\n-------------------------------------------------------------------------------------------------------------\n");
         game();
         return false;
-    }
+    } else {}
+
     return true;
 }
 
@@ -62,7 +65,7 @@ function check_busted(player_hand: Hand, dealer_hand: Hand, bet: number): Busted
  */
 function check_winner(player_hand: Hand, dealer_hand: Hand, bet: number): void {
     if (dealer_hand.get_hand_value() <= 21) {
-        if (player_hand.get_hand_value() == dealer_hand.get_hand_value()){
+        if (player_hand.get_hand_value() == dealer_hand.get_hand_value()) {
             console.log("\n-------------------------------------------------------------------------------------------------------------\n");
             console.log("Push!");
             console.log("Your Balance Is Now: " + user_balance.get_balance() + "$");
@@ -74,11 +77,11 @@ function check_winner(player_hand: Hand, dealer_hand: Hand, bet: number): void {
             console.log("\n-------------------------------------------------------------------------------------------------------------\n");
             console.log("You Win!");
             console.log("Your Balance Is Now: " + user_balance.add_money(bet) + "$");
-        }
+        } else {}
         
         console.log("\n-------------------------------------------------------------------------------------------------------------\n");
         game();
-    }
+    } else {}
 }
 
 /**
@@ -116,7 +119,7 @@ function hit_or_stand(player_hand: Hand, dealer_hand: Hand, deck: Deck, bet: num
                 print_hands_game(player_hand, dealer_hand, deck);
                 if (check_busted(player_hand, dealer_hand, bet)) {
                     hit_or_stand(player_hand, dealer_hand, deck, bet);
-                }
+                } else {}
                 break;
             case 'S':
                 stand(player_hand, dealer_hand, deck, bet);
@@ -141,7 +144,7 @@ export function print_hands_game(player_hand: Hand, dealer_hand: Hand, deck: Dec
         console.log("\n-------------------------------------------------------------------------------------------------------------");
         console.log("\nYour Hand Value: " + player_hand.get_hand_value());
         console.log("\nYour Hand: ");
-        for (let i = 0; i < player_hand.get_cards_length(); i++) {
+        for (let i: number = 0; i < player_hand.get_cards_length(); i++) {
             console.log((player_hand.get_card(i)).to_string());
         }
 
@@ -155,6 +158,7 @@ export function print_hands_game(player_hand: Hand, dealer_hand: Hand, deck: Dec
         if (hidden_card) {
             console.log("Hidden card");
         } else {}
+
         let j: number;
         for (hidden_card ? j = 1: j = 0; j < dealer_hand.get_cards_length(); j++) {
             console.log((dealer_hand.get_card(j)).to_string());
@@ -201,10 +205,10 @@ function double_bet_check(player_hand: Hand, dealer_hand: Hand, deck: Deck, bet:
  * @param {number} bet - Number to be added or subtracted from your balance.
  */
 function check_natural_blackjack(player_hand: Hand, dealer_hand: Hand, deck: Deck, bet: number): void {
-    if (player_hand.get_hand_value() == 21) {
+    if (player_hand.get_hand_value() === 21) {
         console.log("\n-------------------------------------------------------------------------------------------------------------\n");
         console.log("You Win BY Natural Blackjack!");
-        console.log("Your Balance Is Now: " + user_balance.add_money(bet*1.5) + "$");
+        console.log("Your Balance Is Now: " + user_balance.add_money(bet * 1.5) + "$");
         console.log("\n-------------------------------------------------------------------------------------------------------------\n");
         game();
     } else {}
@@ -236,9 +240,7 @@ export function play(): void {
             check_natural_blackjack(player_hand, dealer_hand, deck, bet);
 
             double_bet_check(player_hand, dealer_hand, deck, bet);
-            
         }
-        
     });
 }
 
@@ -263,7 +265,6 @@ function rules(): void {
     console.log("- If the dealers total value over exceeds 21 then the dealer automaticaly lose and you win.\n");
     console.log("- You may chose to double your bet in which you are only give 1 more card and then automatically stand.\n");
     console.log("- If you get 21 in your first hand you get what is called a natural blackjack which returns 2.5* your bet.\n");
-    
 }
 
 /**
@@ -295,7 +296,6 @@ export function handle_menu_input(choice: string): void {
                     game();
                 }
             });
-
             break;
         case 'C':
             user_balance.withdraw();
