@@ -139,30 +139,32 @@ function hit_or_stand(player_hand: Hand, dealer_hand: Hand, deck: Deck, bet: num
  * @param {Deck} deck - Array of cards which the dealer or players new card/s is drawn from.
  */
 function print_hands_game(player_hand: Hand, dealer_hand: Hand, deck: Deck): void {
-        console.log("\n-------------------------------------------------------------------------------------------------------------");
-        console.log("\nCards Left In The Deck: " + deck.length());
-        console.log("\n-------------------------------------------------------------------------------------------------------------");
-        console.log("\nYour Hand Value: " + player_hand.get_hand_value());
-        console.log("\nYour Hand: ");
-        for (let i: number = 0; i < player_hand.get_cards_length(); i++) {
-            console.log((player_hand.get_card(i)).to_string());
-        }
+    console.log("\n-------------------------------------------------------------------------------------------------------------");
+    console.log("\nCards Left In The Deck: " + deck.length());
+    console.log("\n-------------------------------------------------------------------------------------------------------------");
+    console.log("\n-------------------------------------------------------------------------------------------------------------");
+    console.log("\n-------------------------------------------------------------------------------------------------------------");
+    console.log("\nYour Hand Value: " + player_hand.get_hand_value());
+    console.log("\nYour Hand: ");
+    for (let i: number = 0; i < player_hand.get_cards_length(); i++) {
+        console.log((player_hand.get_card(i)).to_string());
+    }
+    
+    if (hidden_card) {
+        console.log("\nDealer Hand Value: " + (dealer_hand.get_hand_value() - dealer_hand.get_card_value(0)));
+    } else {
+        console.log("\nDealer Hand Value: " + dealer_hand.get_hand_value());
+    }
+    
+    console.log("\nDealers Hand: ");
+    if (hidden_card) {
+        console.log("Hidden card");
+    } else {}
 
-        if (hidden_card) {
-            console.log("\nDealer Hand Value: " + (dealer_hand.get_hand_value() - dealer_hand.get_card_value(0)));
-        } else {
-            console.log("\nDealer Hand Value: " + dealer_hand.get_hand_value());
-        }
-        
-        console.log("\nDealers Hand: ");
-        if (hidden_card) {
-            console.log("Hidden card");
-        } else {}
-
-        let j: number;
-        for (hidden_card ? j = 1: j = 0; j < dealer_hand.get_cards_length(); j++) {
-            console.log((dealer_hand.get_card(j)).to_string());
-        }
+    let j: number;
+    for (hidden_card ? j = 1: j = 0; j < dealer_hand.get_cards_length(); j++) {
+        console.log((dealer_hand.get_card(j)).to_string());
+    }
 }
 /**
  * Gives the player the option to double their bet (provided that the player has enough money) 
