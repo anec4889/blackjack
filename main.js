@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-exports.Money = exports.Hand = exports.Deck = exports.Card = exports.faces = exports.suits = void 0;
+exports.random_permutation = exports.Money = exports.Hand = exports.Deck = exports.Card = exports.faces = exports.suits = void 0;
 exports.suits = ["Hearts", "Diamonds", "Clubs", "Spades"];
 exports.faces = [
     ['Ace', 11],
@@ -22,7 +22,9 @@ exports.faces = [
  */
 var Card = /** @class */ (function () {
     /**
-     *
+     * Initializes Card and creates a new card from the two arguments suit and face.
+     * @param {Suit} suit - The suit of the card.
+     * @param {Face} face - The face of the card.
      */
     function Card(suit, face) {
         this.suit = suit;
@@ -68,6 +70,10 @@ exports.Card = Card;
  * An array of the type Card, representing a whole deck.
  */
 var Deck = /** @class */ (function () {
+    /**
+     * Initializes Deck and creates new decks depending on the input amount.
+     * @param {number} amount_of_decks - The amount of decks to be created.
+     */
     function Deck(amount_of_decks) {
         var _this = this;
         this.deck = [];
@@ -120,12 +126,13 @@ var Deck = /** @class */ (function () {
 }());
 exports.Deck = Deck;
 /**
- *
+ * Represents and handles the data for the hand of the dealer or player in form of an array of cards.
  */
 var Hand = /** @class */ (function () {
     function Hand() {
         this.hand = [];
         this.total_value = 0;
+        // Keeps count if an ace is drawn from the deck in order for it to vary its value to either 1 or 11.
         this.ace_counter = 0;
     }
     /**
@@ -147,7 +154,7 @@ var Hand = /** @class */ (function () {
         return this.hand;
     };
     /**
-     * Returns a desired card from your hand.
+     * Returns a desired card from a hand.
      * @example
      * // returns [ Card { suit: 'Spades', face: [ 'Ace', 11 ] } ]
      * const new_hand = new Hand();
@@ -187,13 +194,14 @@ var Hand = /** @class */ (function () {
     };
     /**
      * Calculates the total value of the hand and returns the result as a number.
+     * Also checks whether to convert an ace to of value of 1 or 11.
      * @example
      * // returns 14
      * const new_hand = new Hand();
-     *
      * new_hand.add_card_to_hand(new Card(suits[3], faces[5]));
      * new_hand.add_card_to_hand(new Card(suits[1], faces[7]));
-     * @returns {number} Returns the total valur of the hand.
+     * new_hand.get_hand_value();
+     * @returns {number} Returns the total value of the hand.
      */
     Hand.prototype.get_hand_value = function () {
         var _this = this;
@@ -216,38 +224,60 @@ var Hand = /** @class */ (function () {
 }());
 exports.Hand = Hand;
 /**
- *
+ * Represents and handles the data for the money in the game as the type number.
  */
 var Money = /** @class */ (function () {
     /**
-     *
+     * Initializes Money and sets the initial value for the balance.
+     * @param {number} balance - The amount of money to be set as balance.
      */
     function Money(balance) {
         this.balance = 0;
         this.balance = balance;
     }
     /**
-     *
+     * Returns the current balance of the player.
+     * @example
+     * // returns 100
+     * const new_money = new Money(100);
+     * new_money.get_balance();
+     * @returns {number} Returns the current balance.
      */
     Money.prototype.get_balance = function () {
         return this.balance;
     };
     /**
-     *
+     * Empties the account from money and resets it to 0
+     * @example
+     * // returns "You withdrew 200$"
+     * const new_money = new Money(200);
+     * new_money.withdraw();
      */
     Money.prototype.withdraw = function () {
-        console.log("\nyou withdrew: " + this.balance + "$\n");
+        console.log("\nYou withdrew: " + this.balance + "$\n");
         this.balance = 0;
     };
     /**
-     *
+     * Adds money to the account.
+     * @example
+     * // returns 150
+     * const new_money = new Money();
+     * new_money.add_money(150);
+     * @param {number} amount - Amount of money the players wants to add to the account.
+     * @returns {number} Returns the new amount after money has been added.
      */
     Money.prototype.add_money = function (amount) {
         this.balance = this.balance + amount;
         return this.balance;
     };
     /**
-     *
+     * Subtracts an amount of the current balance and returns the new value.
+     * @example
+     * // returns 50
+     * const new_money = new Money(100);
+     * new_money.sub_money(50);
+     * @param {number} amount - Input number to be subtracted.
+     * @returns {number} Returns the updated balance as a number.
      */
     Money.prototype.sub_money = function (amount) {
         this.balance = this.balance - amount;
@@ -257,7 +287,7 @@ var Money = /** @class */ (function () {
 }());
 exports.Money = Money;
 /**
- * Need if we where to implement split or more players
+ * Needed if we were to implement split or more players
  */
 /*export class Player {
     private players: Player_t = [];
@@ -271,17 +301,23 @@ exports.Money = Money;
 }
 */
 /**
- * Randomly permutes an array of elements of any type
+ * Permutes an array of elements of any type.
  * @example
  * MIGHT return [3, 1, 2];
  * random_permutation([1, 2, 3]);
- * @param {Array<T>} arr - input array
+ * @param {Array<T>} arr - input array.
+ * @returns {Array<T>} Returns a permuted array of the input array.
  */
 function random_permutation(arr) {
     var _a;
     for (var i = arr.length - 1; i > 0; --i) {
-        var j = Math.floor(Math.random() * (i + 1));
-        _a = [arr[j], arr[i]], arr[i] = _a[0], arr[j] = _a[1];
+        var swap = Math.floor(Math.random() * (i + 1));
+        // Destructuring assignment used to swap elements in array.
+        _a = [arr[swap], arr[i]], arr[i] = _a[0], arr[swap] = _a[1];
     }
     return arr;
 }
+exports.random_permutation = random_permutation;
+var new_deck = new Deck(2);
+new_deck.shuffle();
+new_deck.print_deck();

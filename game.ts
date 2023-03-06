@@ -138,7 +138,7 @@ function hit_or_stand(player_hand: Hand, dealer_hand: Hand, deck: Deck, bet: num
  * @param {Hand} dealer_hand - The cards of the dealer.
  * @param {Deck} deck - Array of cards which the dealer or players new card/s is drawn from.
  */
-export function print_hands_game(player_hand: Hand, dealer_hand: Hand, deck: Deck): void {
+function print_hands_game(player_hand: Hand, dealer_hand: Hand, deck: Deck): void {
         console.log("\n-------------------------------------------------------------------------------------------------------------");
         console.log("\nCards Left In The Deck: " + deck.length());
         console.log("\n-------------------------------------------------------------------------------------------------------------");
@@ -218,7 +218,7 @@ function check_natural_blackjack(player_hand: Hand, dealer_hand: Hand, deck: Dec
  * Creates new hands for the dealer and the player, asks how large bet the player would 
  * like to place and deals out two cards each to the dealer and the player.
  */
-export function play(): void {
+function play(): void {
     let bet: number = 0;
     const player_hand = new Hand();
     const dealer_hand = new Hand();
@@ -279,7 +279,7 @@ function show_menu(): void {
  * depending on the chosen alternative.
  * @param {string} choice - user input
  */
-export function handle_menu_input(choice: string): void {
+function handle_menu_input(choice: string): void {
     switch(choice) {
         case 'A':
             console.log('\n');

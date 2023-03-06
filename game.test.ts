@@ -1,13 +1,10 @@
 import {
     Card, Deck,
     Hand, suits,
-    faces
+    faces, Money
 } from "./main";
-import {
-    play,
-    handle_menu_input,
-    print_hands_game
-} from "./game";
+
+// Deck
 
 test('Check if the shuffled deck is not equal to the unshuffled deck but has the same length', () => {
     const unshuffled_deck = new Deck(1);
@@ -26,18 +23,26 @@ test('Expect the draw function in Deck to return the last card in the deck', () 
     expect(drawed_card).toStrictEqual(new_card);
 });
 
+// Card
+
 test('Expect Card to return correct Value and Name', () => {
     const new_card = new Card(suits[0], faces[0]);
     expect(new_card.get_value()).toStrictEqual(11);
     expect(new_card.get_name()).toStrictEqual("Ace");
 });
 
-test('Expect add_card_to_hand in Card to add the correct card', () => {
-    const new_card = new Card(suits[0], faces[0]);
-    const new_hand = new Hand();
-    new_hand.add_card_to_hand(new_card);
+test('Expect to_string in Card to return the correct string', () => {
+    const new_card = new Card(suits[3], faces[0]);
+    expect(new_card.to_string()).toStrictEqual("Ace of Spades");
+});
 
-    expect(new_hand.show_hand()).toEqual([new_card]);
+// Hand
+
+test('Expect add_card_to_hand in Hand to add the correct card', () => {
+    const new_hand = new Hand();
+    new_hand.add_card_to_hand(new Card(suits[0], faces[0]));
+
+    expect(new_hand.show_hand()).toEqual([new Card(suits[0], faces[0])]);
 });
 
 test('Expect Ace to be 11 if total value is under 11 and 1 otherwise', () => {
@@ -57,3 +62,23 @@ test('Expect Ace to be 11 if total value is under 11 and 1 otherwise', () => {
     expect(new_hand_one.get_hand_value()).toStrictEqual(16);
 });
 
+test('Expect get_cards_length(), get_card() and get_card_value() to return correct values', () => {
+    const new_hand = new Hand();
+    new_hand.add_card_to_hand(new Card(suits[0], faces[4]));
+    new_hand.add_card_to_hand(new Card(suits[0], faces[5]));
+
+    expect(new_hand.get_card(0)).toStrictEqual(new Card(suits[0], faces[4]));
+    expect(new_hand.get_cards_length()).toStrictEqual(2);
+    expect(new_hand.get_card_value(1)).toStrictEqual(6);
+});
+
+// Money
+
+test('Expect functions in Money to return expected values', () => {
+    const new_money = new Money(100);
+
+    expect(new_money.add_money(100)).toStrictEqual(200);
+    expect(new_money.sub_money(50)).toStrictEqual(150);
+    new_money.withdraw();
+    expect(new_money.get_balance()).toStrictEqual(0);
+});
